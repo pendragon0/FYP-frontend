@@ -1,0 +1,10 @@
+<resources>
+    <string name="default_web_client_id" translatable="false">YOUR_CLIENT_ID.apps.googleusercontent.com</string>
+    <string name="ga_trackingId" translatable="false">UA-XXXXXXXX-X</string>
+    <string name="firebase_database_url" translatable="false">https://YOUR_PROJECT_ID.firebaseio.com</string>
+    <string name="google_api_key" translatable="false">YOUR_API_KEY</string>
+    <string name="google_app_id" translatable="false">1:XXXXXXXXXXXX:android:XXXXXXXXXXXXXX</string>
+    <string name="google_crash_reporting_api_key" translatable="false">YOUR_API_KEY</string>
+    <string name="project_id" translatable="false">YOUR_PROJECT_ID</string>
+    <!-- Add other Firebase configurations as needed -->
+</resources>
