@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TableWidget extends StatelessWidget {
   final List<TestData> testData = [
-    TestData('RBC Count', '4.5' , 'M/uL'),
+    TestData('RBC Count', '0' , 'M/uL'),
     TestData('WBC Count', '11.0',  'K/uL'),
     TestData('Platelets', '250' ,'K/uL'),
     TestData('Hemoglobin', '14.5',' g/dL'),
