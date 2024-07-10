@@ -1,9 +1,14 @@
 import 'package:dart_openai/dart_openai.dart';
+import 'package:projm/controllers/prompt_handler.dart';
+import 'package:projm/models/shareddata.dart';
 
-var prompt = '';
+
 
 // void response() async {}
 
+Future<String> generatingText() async {
+
+String prompt = createPrompt(testResults);
 final systemMessage= OpenAIChatCompletionChoiceMessageModel(
   role: OpenAIChatMessageRole.assistant,
   content: [OpenAIChatCompletionChoiceMessageContentItemModel.text(
@@ -12,10 +17,11 @@ final systemMessage= OpenAIChatCompletionChoiceMessageModel(
   ],
 );
 
+
 final userMessage= OpenAIChatCompletionChoiceMessageModel(
   role: OpenAIChatMessageRole.user,
   content: [OpenAIChatCompletionChoiceMessageContentItemModel.text(
-    'Make a random CBC report diagnose.'
+    prompt
     ),
   ],
 );
@@ -25,19 +31,21 @@ final requestMessage = [
   userMessage,
 ];
 
+OpenAI.apiKey = 'your api key';
+OpenAIChatCompletionModel chatCompletion = await OpenAI.instance.chat.create(
+  model: 'ft:gpt-3.5-turbo-0613:personal:medscanvb07:9P9zOpcu',
+  // responseFormat: {'type': 'json_object'},
+  seed: 6,
+  messages: requestMessage,
+  temperature: 1,
+  maxTokens: 256,
+  );
 
-generatingText() async {
-  OpenAI.apiKey = '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';
-  OpenAIChatCompletionModel chatCompletion = await OpenAI.instance.chat.create(
-    model: 'ft:gpt-3.5-turbo-0613:personal:medscanvb07:9P9zOpcu',
-    // responseFormat: {'type': 'json_object'},
-    seed: 6,
-    messages: requestMessage,
-    temperature: 1,
-    maxTokens: 256,
-    );
+  print('PROMPT ENTERED*********: $prompt');
+  // print(chatCompletion.choices.first.message);
 
-    print(chatCompletion.choices.first.message);
+  String? diagnosis = chatCompletion.choices.first.message.content?[0].text;
+  return diagnosis ?? 'Could not diagnose';
 }
 
 // print(chatCompletion.choices.first.message);0

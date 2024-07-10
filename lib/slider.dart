@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:projm/pdfscanpage.dart';
+// import 'package:projm/pdfscanpage.dart';
+import 'package:projm/views/home_screen.dart';
 
 // import 'package:projm/controllers/model_controller.dart';
 
@@ -23,7 +24,7 @@ class SliderScreen extends StatelessWidget {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ScanPDF())
+          MaterialPageRoute(builder: (context) => HomeScreen())
         );
         print('******************PRESSED');
         // OCR SERVICE TESTING ****

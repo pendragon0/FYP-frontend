@@ -9,7 +9,7 @@ class Splashscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FlutterSplashScreen.fadeIn(backgroundColor: Colors.white ,childWidget: SizedBox(height: 200, width: 200, child: Image.asset("images/medsscan_logo.png")), nextScreen: const SliderScreen(),),
+      home: FlutterSplashScreen.fadeIn(backgroundColor: Colors.white ,childWidget: SizedBox(height: 200, width: 200, child: Image.asset("images/medsscan_logo1.png")), nextScreen: const SliderScreen(),),
     );
   }
 }
