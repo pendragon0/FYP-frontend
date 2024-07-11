@@ -39,8 +39,7 @@ dependencies:
   pdf:
   process_run:
   path_provider:
-  firebase_core:
-  google_ml_kit: 
+  firebase_core: 
   image_picker: 
   fl_chart: 
   syncfusion_flutter_charts: ^20.2.47

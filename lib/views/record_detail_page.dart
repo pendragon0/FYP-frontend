@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io'; // Import the dart:io library
 
-class CameraPage extends StatefulWidget {
-  @override
-  _CameraPageState createState() => _CameraPageState();
-}
-
-class _CameraPageState extends State<CameraPage> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
-
-  Future<void> _openCamera() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
-  }
-
+class RecordDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +9,7 @@ class _CameraPageState extends State<CameraPage> {
           // Custom AppBar with gradient background
           Container(
             padding: EdgeInsets.only(
-                top: MediaQuery.of(context)
-                    .padding
-                    .top), // Add padding for the status bar
+                top: MediaQuery.of(context).padding.top), // Add padding for the status bar
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -63,7 +44,7 @@ class _CameraPageState extends State<CameraPage> {
                         },
                       ),
                       Text(
-                        'Camera',
+                        'Record Details',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -81,40 +62,58 @@ class _CameraPageState extends State<CameraPage> {
             ),
           ),
           Expanded(
-            child: Stack(
-              children: [
-                // Background color set to white
-                Container(
-                  color: Colors.white,
+            child: Container(
+              color: Colors.white, // Set background color to white
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildTile(context, 'upload report tile.png', _handleUploadReportTap),
+                    SizedBox(height: 20), // Space between the tiles
+                    _buildTile(context, 'generate report tile.png', _handleGenerateReportTap),
+                  ],
                 ),
-                // Background image
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/camerabackground.png'), // Path to your background image
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // Content
-                Center(
-                  child: _image != null
-                      ? Image.file(File(_image!.path))
-                      : Container(), // Display nothing if no image is selected
-                ),
-              ],
+              ),
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openCamera,
-        tooltip: 'Open Camera',
-        backgroundColor: Color.fromRGBO(67, 190, 231, 1), // Updated color to #0099FF
-        child:
-            Icon(Icons.camera, color: Colors.white), // Icon color set to white
+    );
+  }
+
+  Widget _buildTile(BuildContext context, String backgroundImage, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 150, // Keep the width same as previous tiles
+        height: 150, // Keep the height same as previous tiles
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          image: DecorationImage(
+            image: AssetImage('assets/$backgroundImage'),
+            fit: BoxFit.cover,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 20,
+              offset: Offset(0, 6),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _handleUploadReportTap() {
+    // Handle the upload report tile tap
+    print('Upload Report tapped');
+    // Add your functionality here
+  }
+
+  void _handleGenerateReportTap() {
+    // Handle the generate report tile tap
+    print('Generate Report tapped');
+    // Add your functionality here
   }
 }

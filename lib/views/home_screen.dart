@@ -5,6 +5,8 @@ import 'sidebar.dart';
 import 'statistics_page.dart';
 import 'floating_navigation_bar.dart'; // Import the floating navigation bar
 import 'tile_widget.dart'; // Import the tile widget
+import 'records_page.dart'; // Import the records page
+import 'about_page.dart'; // Import the about page
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -34,10 +36,9 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Builder(
                     builder: (context) => IconButton(
-                      icon: Icon(Icons.menu, color: Colors.black),
+                      icon: Icon(Icons.menu, color: const Color.fromARGB(255, 255, 255, 255)),
                       onPressed: () {
-                        Scaffold.of(context)
-                            .openDrawer(); // Open navigation drawer
+                        Scaffold.of(context).openDrawer(); // Open navigation drawer
                       },
                     ),
                   ),
@@ -47,25 +48,21 @@ class HomeScreen extends StatelessWidget {
                 // Grid of tiles
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 60.0,
-                      bottom:
-                          150.0), // Adjusted padding to position tiles correctly
+                      top: 60.0, bottom: 150.0), // Adjusted padding to position tiles correctly
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     padding: EdgeInsets.all(16),
-                    physics:
-                        NeverScrollableScrollPhysics(), // Prevent scrolling
+                    physics: NeverScrollableScrollPhysics(), // Prevent scrolling
                     children: [
                       TileWidget(
                         backgroundImage: 'camera tile.png', // Updated image
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => CameraPage()),
+                            MaterialPageRoute(builder: (context) => CameraPage()),
                           );
                         },
                       ),
@@ -74,8 +71,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => PdfUploadPage()),
+                            MaterialPageRoute(builder: (context) => PdfUploadPage()),
                           );
                         },
                       ),
@@ -84,16 +80,17 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    StatisticsPage()), // Link to StatisticsPage
+                            MaterialPageRoute(builder: (context) => AboutPage()), // Link to AboutPage
                           );
                         },
                       ),
                       TileWidget(
                         backgroundImage: 'contact tile.png', // Updated image
                         onTap: () {
-                          // Navigate to Contact Screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RecordsPage()), // Link to RecordsPage
+                          );
                         },
                       ),
                     ],

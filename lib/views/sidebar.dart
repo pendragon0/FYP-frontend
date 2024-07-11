@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'records_page.dart'; // Import the RecordsPage
 
 class Sidebar extends StatelessWidget {
   @override
@@ -31,7 +32,7 @@ class Sidebar extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 0, right: 30), // Adjusted margin
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromRGBO(67, 190, 231, 1),
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8),
@@ -54,7 +55,11 @@ class Sidebar extends StatelessWidget {
                   ),
                   splashColor: Colors.blue.withOpacity(0.3),
                   onTap: () {
-                    // Handle tap
+                    // Navigate to the RecordsPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecordsPage()),
+                    );
                   },
                   child: ListTile(
                     leading: Icon(Icons.folder, color: Colors.white),

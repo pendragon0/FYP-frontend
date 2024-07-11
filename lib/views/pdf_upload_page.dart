@@ -57,7 +57,7 @@ String email = 'wagamo112@gmail.com';
 Future<void> _uploadPDF(File file) async {
 
   //API KEY TO DJANGO SERVER
-  final uri = Uri.parse("http://192.168.18.101:8080/api/API/upload/");
+  final uri = Uri.parse("http://192.168.100.85:8080/api/API/upload/");
     var request = http.MultipartRequest('POST', uri);
     request.fields['email'] = email;
     request.files.add(await http.MultipartFile.fromPath('file', file.path));
@@ -196,7 +196,7 @@ Future<void> _uploadPDF(File file) async {
       floatingActionButton: FloatingActionButton(
         onPressed: _pickDocument,
         tooltip: 'Pick PDF',
-        backgroundColor: Color(0xFF0099FF), // Updated color to #0099FF
+        backgroundColor: Color.fromRGBO(67, 190, 231, 1), // Updated color to #0099FF
         child: Icon(Icons.picture_as_pdf,
             color: Colors.white), // Icon color set to white
       ),
