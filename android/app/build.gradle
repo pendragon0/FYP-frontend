@@ -1,9 +1,9 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'com.google.gms.google-services'
-    id 'dev.flutter.flutter-gradle-plugin'
-}
+// plugins {
+//     id 'com.android.application'
+//     id 'kotlin-android'
+//     id 'dev.flutter.flutter-gradle-plugin'
+//     id 'com.google.gms.google-services'
+// }
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -22,6 +22,15 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'dev.flutter.flutter-gradle-plugin'
+apply plugin: 'com.google.gms.google-services'
+
+// apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+
 
 android {
     namespace "com.example.projm"
@@ -43,7 +52,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.projm"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -61,6 +70,15 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
-    implementation("com.google.firebase:firebase-analytics")
+    
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation platform("com.google.firebase:firebase-bom:33.1.1")
+    // implementation("com.google.firebase:firebase-analytics")
+    implementation 'com.google.firebase:firebase-analytics'
+}
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+    }
 }

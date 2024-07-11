@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+// import 'package:projm/controllers/api_handler.dart';
+import 'package:projm/views/home_screen.dart';
+
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -12,9 +18,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode confirmPasswordFocusNode = FocusNode();
 
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController confirm_PasswordController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -27,8 +38,8 @@ class _SignUpPageState extends State<SignUpPage> {
     passwordFocusNode.dispose();
     confirmPasswordFocusNode.dispose();
     _scrollController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    _passwordController.dispose();
+    confirm_PasswordController.dispose();
     dobController.dispose();
     super.dispose();
   }
@@ -43,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _validatePasswords() {
-    if (passwordController.text != confirmPasswordController.text) {
+    if (_passwordController.text != confirm_PasswordController.text) {
       setState(() {
         _passwordError = 'Passwords do not match';
       });
@@ -52,6 +63,42 @@ class _SignUpPageState extends State<SignUpPage> {
         _passwordError = null;
       });
     }
+  }
+
+  void _signup() async {
+    if (!_isValidEmail(_emailController.text)) {
+      print('Invalid email format');
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      print('user credentials got');
+
+      // Save additional user information in Firestore
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'name': _nameController.text,
+        'age': dobController.text,
+        'email': _emailController.text,
+      });
+      String email = _emailController.text;
+      String name = _nameController.text;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(email: email, name: name,)),
+      );
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+    }
+  }
+
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return emailRegex.hasMatch(email);
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -105,6 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                       child: TextField(
+                        controller: _nameController,
                         focusNode: fullNameFocusNode,
                         onTap: () => _scrollToFocusedField(context, fullNameFocusNode),
                         decoration: InputDecoration(
@@ -134,6 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                       child: TextField(
+                        controller: _emailController,
                         focusNode: emailFocusNode,
                         onTap: () => _scrollToFocusedField(context, emailFocusNode),
                         decoration: InputDecoration(
@@ -193,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                       child: TextField(
-                        controller: passwordController,
+                        controller: _passwordController,
                         focusNode: passwordFocusNode,
                         onTap: () => _scrollToFocusedField(context, passwordFocusNode),
                         obscureText: _obscurePassword,
@@ -231,7 +280,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                       child: TextField(
-                        controller: confirmPasswordController,
+                        controller: confirm_PasswordController,
                         focusNode: confirmPasswordFocusNode,
                         onTap: () => _scrollToFocusedField(context, confirmPasswordFocusNode),
                         obscureText: _obscureConfirmPassword,
@@ -276,6 +325,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             _validatePasswords();
                             if (_passwordError == null) {
                               // Handle sign up
+                              _signup();
                             }
                           },
                           style: ElevatedButton.styleFrom(

@@ -39,7 +39,10 @@ dependencies:
   pdf:
   process_run:
   path_provider:
-  firebase_core: 
+  firebase_core: ^3.1.1
+  firebase_auth: ^5.1.1
+  google_sign_in: ^6.2.1
+  cloud_firestore:  ^5.0.2
   image_picker: 
   fl_chart: 
   syncfusion_flutter_charts: ^20.2.47
@@ -47,7 +50,6 @@ dependencies:
   flutter_onboarding_slider: ^1.0.11
   another_flutter_splash_screen: ^1.2.0
   dart_openai: ^5.1.0
-  flutter_scalable_ocr: 
   http: ^1.2.1
   url_launcher:
   printing:

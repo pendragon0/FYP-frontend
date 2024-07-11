@@ -1,17 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:projm/models/shareddata.dart';
+import 'package:projm/models/testresults.dart';
 
 class TableWidget extends StatelessWidget {
-  final List<TestData> testData = [
-    TestData('RBC Count', '0' , 'M/uL'),
-    TestData('WBC Count', '11.0',  'K/uL'),
-    TestData('Platelets', '250' ,'K/uL'),
-    TestData('Hemoglobin', '14.5',' g/dL'),
-    TestData('Glucose', '90' ,'mg/dL'),
-    TestData('Cholesterol', '180','mg/dL'),
-  ];
+  final List<TestResult> results = testResults;
+
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, double> attributes = {
+      'RBC Count': 0.0,
+      'WBC Count': 0.0,
+      'Platelets': 0.0,
+      'Hemoglobin': 0.0,
+    };
+    
+    // Populate the attributes map with values from testResults
+    for (var result in results) {
+      if (result.attribute == 'RBC') {
+        attributes['RBC Count'] = double.tryParse(result.value) ?? 0.0;
+      } else if (result.attribute == 'WBC') {
+        attributes['WBC Count'] = double.tryParse(result.value) ?? 0.0;
+      } else if (result.attribute == 'PLATELETS') {
+        attributes['Platelets'] = double.tryParse(result.value) ?? 0.0;
+      } else if (result.attribute == 'HB') {
+        attributes['Hemoglobin'] = double.tryParse(result.value) ?? 0.0;
+      }
+    }
+
+    var rbc = attributes["RBC Count"];
+    var wbc = attributes["WBC Count"];
+    var platelets = attributes["Platelets"];
+    var hb = attributes["Hemoglobin"];
+
+    final List<TestData> testData = [
+      TestData('RBC Count', '$rbc' , '10^6/uL'),
+      TestData('WBC Count', '$wbc',  '10^6/uL'),
+      TestData('Platelets', '$platelets' ,'10^6/uL'),
+      TestData('Hemoglobin', '$hb',' g/dL'),
+    ];
+
     return Container(
       margin: EdgeInsets.only(top: 20.0),
       padding: EdgeInsets.all(8.0),

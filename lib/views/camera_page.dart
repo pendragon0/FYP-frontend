@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:projm/models/shareddata.dart';
 import 'package:projm/models/testresults.dart';
+import 'package:projm/views/statistics_page.dart';
 
 
 class CameraPage extends StatefulWidget {
@@ -38,7 +39,7 @@ String email = 'wagamo112@gmail.com';
 Future<void> _uploadImg(File file) async {
 
   //API KEY TO DJANGO SERVER
-  final uri = Uri.parse("http://192.168.100.85:8080/api/API/upload/");
+  final uri = Uri.parse("http://192.168.18.101:8080/api/API/upload/");
     var request = http.MultipartRequest('POST', uri);
     request.fields['email'] = email;
     request.fields['report_identifier'] = reportIdentifier;
@@ -53,6 +54,8 @@ Future<void> _uploadImg(File file) async {
         return TestResult(attribute: entry.key, value: entry.value.toString());
       }).toList();
       testResults = results;
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => StatisticsPage(reportIdentifier)));
     //   setState(() {
     //     testResults = results;
     //   });

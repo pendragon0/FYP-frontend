@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projm/views/home_screen.dart';
+
 
 class SignInPage extends StatefulWidget {
   @override
@@ -6,11 +10,56 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final ScrollController _scrollController = ScrollController();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
 
   bool _obscurePassword = true;
+
+  void _login() async {
+    if (!_isValidEmail(_emailController.text)) {
+      print('Invalid email format');
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      
+      final String? _userName;  
+      User? name = userCredential.user;
+      if (name != null) {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(name.uid)
+            .get();
+        
+        _userName = userDoc['name'];
+      } else {
+        _userName = 'bot';
+      }
+      String email = _emailController.text;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(email: email,name: '$_userName')),
+      );
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+    }
+  }
+
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return emailRegex.hasMatch(email);
+  }
+
 
   @override
   void dispose() {
@@ -65,6 +114,7 @@ class _SignInPageState extends State<SignInPage> {
                         ],
                       ),
                       child: TextField(
+                        controller: _emailController,
                         focusNode: emailFocusNode,
                         onTap: () => _scrollToFocusedField(context, emailFocusNode),
                         decoration: InputDecoration(
@@ -94,6 +144,7 @@ class _SignInPageState extends State<SignInPage> {
                         ],
                       ),
                       child: TextField(
+                        controller: _passwordController,
                         focusNode: passwordFocusNode,
                         onTap: () => _scrollToFocusedField(context, passwordFocusNode),
                         obscureText: _obscurePassword,
@@ -132,9 +183,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
-                        // Handle sign in
-                      },
+                      onPressed: _login,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF0FA4DC),
                         foregroundColor: Colors.white,

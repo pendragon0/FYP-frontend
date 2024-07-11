@@ -1,16 +1,23 @@
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projm/userreports.dart';
-import 'camera_page.dart';
-import 'pdf_upload_page.dart';
-import 'sidebar.dart';
-// import 'statistics_page.dart';
-import 'floating_navigation_bar.dart'; // Import the floating navigation bar
-import 'tile_widget.dart'; // Import the tile widget
+
 // import 'package:projm/userreports.dart'; // Import the records page
 import 'about_page.dart'; // Import the about page
+import 'camera_page.dart';
+// import 'statistics_page.dart';
+import 'floating_navigation_bar.dart'; // Import the floating navigation bar
+import 'pdf_upload_page.dart';
+import 'sidebar.dart';
+import 'tile_widget.dart'; // Import the tile widget
 
 class HomeScreen extends StatelessWidget {
+
+  final String email;
+  final String name;
+  HomeScreen({required this.email, required this.name });
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Sidebar(), // Add the sidebar here
@@ -79,6 +86,7 @@ class HomeScreen extends StatelessWidget {
                       TileWidget(
                         backgroundImage: 'about tile.png', // Updated image
                         onTap: () {
+                          print('getting email and name of the user: $email and $name');
                           Navigator.push(
                             context,
                             MaterialPageRoute(

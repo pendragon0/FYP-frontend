@@ -1,134 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-// import 'package:projm/pdfscanpage.dart';
-import 'package:projm/views/home_screen.dart';
+import 'package:projm/views/home_screen.dart'; // Ensure this import points to your actual HomeScreen file
 
-// import 'package:projm/controllers/model_controller.dart';
-
-class SliderScreen extends StatelessWidget {
+class SliderScreen extends StatefulWidget {
   const SliderScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return OnBoardingSlider(
-      headerBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      controllerColor: Colors.black,
-      finishButtonText: 'Register',
-      finishButtonStyle: const FinishButtonStyle(
-          backgroundColor: Color.fromARGB(255, 0, 0, 0)),
-      skipTextButton: const Text('Skip'),
-      trailing: const Text('Login'),
-      
-      
-      // Navigation Function ********************
-      trailingFunction: () {
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen())
-        );
-        print('******************PRESSED');
-        // OCR SERVICE TESTING ****
-
-        // generatingText();
-        
-      },
-
-      background: [
-        Image.asset('assets/sliderimage1.png'),
-        Image.asset('assets/sliderimage2.png'),
-        Image.asset('assets/sliderimage1.png')
-      ],
-      totalPage: 3,
-      speed: 1.8,
-      centerBackground: true,
-      pageBodies: [
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 400,
-                ),
-                Column(
-                  children: [
-                    RichText(text: const TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 28.0,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: 'Welcome to MedScan', style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nYour Personal Health Assistant', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nEmpowering you with the ability to understand your health better. Get quick insights and diagnoses based on your reports.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w100))
-                      ]
-                    )),
-                  ],
-                ),
-              ],
-            )),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 400,
-                ),
-                Column(
-                  children: [
-                    RichText(text: const TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 28.0,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: 'Upload Reports Easily', style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nScan or upload your CBC reports', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nSimply scan or upload your CBC reports in PDF format. Our app will analyze and provide detailed insights into your blood profile.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w100))
-                      ]
-                    )),
-                  ],
-                ),
-              ],
-            )),
-            Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 400,
-                ),
-                Column(
-                  children: [
-                    RichText(text: const TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 28.0,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: 'Instant Diagnosis', style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nReceive quick and accurate results', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        TextSpan(text: '\n\nGet instant analysis and diagnosis based on your CBC reports. Undetstand your health status comprehensively.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w100))
-                      ]
-                    )),
-                  ],
-                ),
-              ],
-            )),
-      ],
-    );
-  }
+  _SliderScreenState createState() => _SliderScreenState();
 }
 
-class SlideModel {
-  final String imagePath;
-  final String title;
-  final String desc;
-  final Color backgroundColor;
+class _SliderScreenState extends State<SliderScreen> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
 
-  SlideModel({
-    required this.imagePath,
-    required this.title,
-    required this.desc,
-    required this.backgroundColor,
-  });
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _onNextButtonPressed() {
+    if (_currentIndex < 2) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      // Navigate to HomeScreen on the last page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen(email: 'wagamo112@gmail.com', name: 'Wahaj',)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: [
+              Image.asset('assets/sliderimage1.png', fit: BoxFit.cover),
+              Image.asset('assets/sliderimage2.png', fit: BoxFit.cover),
+              Image.asset('assets/sliderimage3.png', fit: BoxFit.cover),
+            ],
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(3, (index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: _currentIndex == index
+                            ? Color(0xFFDEBCFF)
+                            : Color(0xFFDEBCFF).withOpacity(0.5),
+                        shape: BoxShape.circle,
+                      ),
+                    );
+                  }),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _onNextButtonPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFDEBCFF),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    shadowColor: Colors.black.withOpacity(0.5),
+                    elevation: 10,
+                  ),
+                  child: Text(
+                    _currentIndex < 2 ? 'Next →' : 'Get Started',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -97,7 +97,7 @@ class ChartWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '10^3',
+                          '10^6',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -134,12 +134,12 @@ class ChartWidget extends StatelessWidget {
               SizedBox(height: 8),
               LegendItem(
                 color: chartData[2].color,
-                text: '${chartData[2].category}: ${chartData[2].value} 10^3/uL',
+                text: '${chartData[2].category}: ${chartData[2].value} g/dL',
               ),
               SizedBox(height: 8),
               LegendItem(
                 color: Colors.green,
-                text: '$attribute_name: $attribute_value g/dL',
+                text: '$attribute_name: $attribute_value 10^6 /uL',
               ),
             ],
           ),

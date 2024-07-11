@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projm/views/sign_in_page.dart';
+import 'package:projm/views/sign_up_page.dart';
 
 class SignInSignUpPage extends StatelessWidget {
   @override
@@ -28,6 +30,8 @@ class SignInSignUpPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to sign in page
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
+
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white, // Background color
@@ -49,7 +53,7 @@ class SignInSignUpPage extends StatelessWidget {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigate to sign up page
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF0FA4DC), // Background color

@@ -31,7 +31,7 @@ final requestMessage = [
   userMessage,
 ];
 
-OpenAI.apiKey = 'your key here';
+OpenAI.apiKey = 'openAI key here';
 OpenAIChatCompletionModel chatCompletion = await OpenAI.instance.chat.create(
   model: 'ft:gpt-3.5-turbo-0613:personal:medscanvb07:9P9zOpcu',
   // responseFormat: {'type': 'json_object'},
