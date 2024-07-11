@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'camera_page.dart';
+import 'user_profile_page.dart'; // Import the user profile page
 
 class FloatingNavigationBar extends StatelessWidget {
   @override
@@ -42,7 +43,12 @@ class FloatingNavigationBar extends StatelessWidget {
                       icon: Icon(Icons.person,
                           color: Color.fromRGBO(125, 125, 125, 1)),
                       onPressed: () {
-                        // Handle profile button press
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserProfilePage(), // Navigate to user profile page
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -50,7 +56,7 @@ class FloatingNavigationBar extends StatelessWidget {
               ),
             ),
             FloatingActionButton(
-              backgroundColor: Color.fromRGBO(0, 153, 255, 1),
+              backgroundColor: Color.fromRGBO(67, 190, 231, 1),
               child: Icon(Icons.add_a_photo, color: Colors.white),
               onPressed: () {
                 Navigator.push(

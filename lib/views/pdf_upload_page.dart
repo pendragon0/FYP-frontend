@@ -202,7 +202,7 @@ Future<void> _uploadPDF(File file) async {
       floatingActionButton: FloatingActionButton(
         onPressed: _pickDocument,
         tooltip: 'Pick PDF',
-        backgroundColor: Color(0xFF0099FF), // Updated color to #0099FF
+        backgroundColor: Color.fromRGBO(67, 190, 231, 1), // Updated color to #0099FF
         child: Icon(Icons.picture_as_pdf,
             color: Colors.white), // Icon color set to white
       ),
