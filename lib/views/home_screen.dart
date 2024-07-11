@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:projm/userreports.dart';
 import 'camera_page.dart';
 import 'pdf_upload_page.dart';
 import 'sidebar.dart';
-import 'statistics_page.dart';
+// import 'statistics_page.dart';
 import 'floating_navigation_bar.dart'; // Import the floating navigation bar
 import 'tile_widget.dart'; // Import the tile widget
 
@@ -86,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    StatisticsPage()), // Link to StatisticsPage
+                                    RecordsPage(email: 'wagamo112@gmail.com')), // Link to StatisticsPage
                           );
                         },
                       ),

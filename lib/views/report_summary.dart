@@ -7,8 +7,22 @@ class ReportSummaryPage extends StatelessWidget {
 
   ReportSummaryPage({required this.diagnosis});
 
+  String find_summary(String diagnosis){
+    int cureindex =diagnosis.indexOf('Cure');
+
+    if (cureindex!= -1){
+      return diagnosis.substring(0, cureindex).trim();
+    }
+
+
+    return diagnosis.trim();
+  }
+  
   @override
   Widget build(BuildContext context) {
+  
+  final String summary = find_summary(diagnosis);
+
     return Scaffold(
       body: Column(
         children: [
@@ -97,7 +111,7 @@ class ReportSummaryPage extends StatelessWidget {
                             width: double.infinity, // Allow the width to be controlled
                             height: 300, // Initial height, can be adjusted
                             child: SingleChildScrollView(
-                              child: Text(diagnosis)
+                              child: Text(summary)
                             ),
                           ),
                         ),

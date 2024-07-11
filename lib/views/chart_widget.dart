@@ -31,9 +31,12 @@ class ChartWidget extends StatelessWidget {
     final List<_ChartData> chartData = [
       _ChartData('RBC Count', attributes['RBC Count']!, Colors.red),
       _ChartData('WBC Count', attributes['WBC Count']!, Colors.blue),
-      _ChartData('Platelets', attributes['Platelets']!, Colors.green),
+      // _ChartData('Platelets', attributes['Platelets']!, Colors.green),
       _ChartData('Hemoglobin', attributes['Hemoglobin']!, Colors.orange),
     ];
+
+    double? attribute_value = attributes['Platelets'];
+    String attribute_name = attributes.keys.elementAt(2);
 
     return Container(
       margin: EdgeInsets.only(top: 16.0),
@@ -86,15 +89,15 @@ class ChartWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '4900',
+                          "$attribute_value",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 40,
+                            color: Colors.green,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          '+1.14',
+                          '10^3',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -102,7 +105,7 @@ class ChartWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '+1.09%',
+                          '/uL',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -135,8 +138,8 @@ class ChartWidget extends StatelessWidget {
               ),
               SizedBox(height: 8),
               LegendItem(
-                color: chartData[3].color,
-                text: '${chartData[3].category}: ${chartData[3].value} g/dL',
+                color: Colors.green,
+                text: '$attribute_name: $attribute_value g/dL',
               ),
             ],
           ),

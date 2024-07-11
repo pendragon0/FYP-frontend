@@ -117,7 +117,7 @@ class _ScanPDFState extends State<ScanPDF> {
                     ElevatedButton(
                       onPressed: (){Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserReportsScreen(email: email))
+                        MaterialPageRoute(builder: (context) => RecordsPage(email: email))
                       );
                       },
                       child: Text('Records')),

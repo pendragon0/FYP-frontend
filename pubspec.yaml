@@ -51,6 +51,7 @@ dependencies:
   flutter_scalable_ocr: 
   http: ^1.2.1
   url_launcher:
+  printing:
 
 dev_dependencies:
   flutter_test:

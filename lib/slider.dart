@@ -34,9 +34,9 @@ class SliderScreen extends StatelessWidget {
       },
 
       background: [
-        Image.asset('images/sliderimage1.png'),
-        Image.asset('images/sliderimage2.png'),
-        Image.asset('images/sliderimage1.png')
+        Image.asset('assets/sliderimage1.png'),
+        Image.asset('assets/sliderimage2.png'),
+        Image.asset('assets/sliderimage1.png')
       ],
       totalPage: 3,
       speed: 1.8,

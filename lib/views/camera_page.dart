@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
 import 'dart:io'; // Import the dart:io library
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:projm/models/shareddata.dart';
+import 'package:projm/models/testresults.dart';
+
 
 class CameraPage extends StatefulWidget {
   @override
@@ -15,9 +21,49 @@ class _CameraPageState extends State<CameraPage> {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
+
     });
+
+    if (_image != null){
+      try {
+        await _uploadImg(File(_image!.path));
+      } catch(e) {
+        print('Error Uploading: $e');
+      }
+    }
   }
 
+String reportIdentifier = DateTime.now().millisecondsSinceEpoch.toString();
+String email = 'wagamo112@gmail.com';
+Future<void> _uploadImg(File file) async {
+
+  //API KEY TO DJANGO SERVER
+  final uri = Uri.parse("http://192.168.100.85:8080/api/API/upload/");
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['email'] = email;
+    request.fields['report_identifier'] = reportIdentifier;
+    request.files.add(await http.MultipartFile.fromPath('file', file.path));
+    
+    var response = await request.send();
+    print('IMAGE ADDED*****');
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final decodedData = json.decode(responseData);
+      final results = decodedData.entries.map<TestResult>((entry) {
+        return TestResult(attribute: entry.key, value: entry.value.toString());
+      }).toList();
+      testResults = results;
+    //   setState(() {
+    //     testResults = results;
+    //   });
+    // } else {
+    //   setState(() {
+    //     testResults = [];
+    //   });
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

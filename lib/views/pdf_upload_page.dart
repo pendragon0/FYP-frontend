@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:projm/models/shareddata.dart';
 import 'package:projm/models/testresults.dart';
+import 'package:projm/views/statistics_page.dart';
 
 class PdfUploadPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class PdfUploadPage extends StatefulWidget {
 
 class _PdfUploadPageState extends State<PdfUploadPage> {
   String? _fileName;
-
+  
 Future<void> _pickDocument() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -52,16 +53,16 @@ Future<void> _pickDocument() async {
     }
   }
 
-
+String reportIdentifier = DateTime.now().millisecondsSinceEpoch.toString();
 String email = 'wagamo112@gmail.com';
 Future<void> _uploadPDF(File file) async {
 
   //API KEY TO DJANGO SERVER
-  final uri = Uri.parse("http://192.168.18.101:8080/api/API/upload/");
+  final uri = Uri.parse("http://192.168.100.85:8080/api/API/upload/");
     var request = http.MultipartRequest('POST', uri);
     request.fields['email'] = email;
+    request.fields['report_identifier'] = reportIdentifier;
     request.files.add(await http.MultipartFile.fromPath('file', file.path));
-    
     var response = await request.send();
     if (response.statusCode == 200) {
       final responseData = await response.stream.bytesToString();
@@ -71,6 +72,11 @@ Future<void> _uploadPDF(File file) async {
       }).toList();
 
       testResults = results;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => StatisticsPage(reportIdentifier))
+      );
     //   setState(() {
     //     testResults = results;
     //   });
