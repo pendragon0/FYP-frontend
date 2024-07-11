@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'records_page.dart'; // Import the RecordsPage
+import 'package:projm/userreports.dart'; // Import the RecordsPage
 
 class Sidebar extends StatelessWidget {
   @override
@@ -58,7 +58,7 @@ class Sidebar extends StatelessWidget {
                     // Navigate to the RecordsPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RecordsPage()),
+                      MaterialPageRoute(builder: (context) => RecordsPage(email: 'wagamo112@gmail.com',)),
                     );
                   },
                   child: ListTile(

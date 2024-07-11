@@ -24,7 +24,7 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   Future<void> _fetchUserReports() async {
-    final uri = Uri.parse("http://192.168.100.85:8080/api/API/user-reports/${widget.email}/");
+    final uri = Uri.parse("http://192.168.100.242:8080/api/API/user-reports/${widget.email}/");
     var response = await http.get(uri);
     print("USER REPORTS FETCHED *********");
     if (response.statusCode == 200) {

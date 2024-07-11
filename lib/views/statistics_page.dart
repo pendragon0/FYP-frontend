@@ -117,7 +117,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
   
   final String email = 'wagamo112@gmail.com';
   Future<void> _sendToServer(File file) async {
-    final uri = Uri.parse("http://192.168.100.85:8080/api/API/upload/");
+    final uri = Uri.parse("http://192.168.100.242:8080/api/API/upload/");
     var request = http.MultipartRequest('POST', uri);
     request.fields['email'] = email;
     request.fields['report_identifier'] = report_identifier;
